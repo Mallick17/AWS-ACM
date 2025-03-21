@@ -173,3 +173,43 @@ Helps you implement the shared responsibility model when using AWS Certificate M
 - **Infrastructure Security**: Understanding ACM’s security features and best practices for secure operations.
 
 ---
+
+### **Managed Certificate Renewal in AWS Certificate Manager**
+
+AWS Certificate Manager (ACM) automates SSL/TLS certificate renewal for Amazon-issued certificates. This includes automatic renewals for DNS-validated certificates and email notifications for other certificates nearing expiration. This applies to both public and private ACM certificates.
+
+**Eligibility Criteria for Automatic Renewal:**
+
+- **Eligible:**
+  - Associated with AWS services like Elastic Load Balancing or CloudFront.
+  - Exported since issuance or last renewal.
+  - Private certificates issued via ACM API, exported, or associated with AWS services.
+  - Private certificates issued via the management console, then exported or associated with AWS services.
+
+- **Not Eligible:**
+  - Private certificates issued via the AWS Private CA IssueCertificate API.
+  - Imported certificates.
+  - Expired certificates.
+
+**Punycode and Internationalized Domain Name (IDN) Requirements:**
+
+- Domain names starting with "<character><character>--" must match "xn--."
+- Domain names starting with "xn--" must be valid IDNs.
+
+**Punycode Examples:**
+
+| Domain Name        | Fulfills #1 | Fulfills #2 | Valid? | Notes                             |
+|--------------------|--------------|--------------|--------|-----------------------------------|
+| example.com        | n/a          | n/a          | ✓      | Does not start with "<character><character>--" |
+| a--example.com     | n/a          | n/a          | ✓      | Does not start with "<character><character>--" |
+| abc--example.com   | n/a          | n/a          | ✓      | Does not start with "<character><character>--" |
+| xn--xyz.com        | Yes          | Yes          | ✓      | Valid IDN (resolves to 简.com)   |
+| xn--example.com    | Yes          | No           | ✗      | Invalid IDN                      |
+| ab--example.com    | No           | No           | ✗      | Must start with "xn--"            |
+
+**Certificate Renewal Details:**
+
+- ARN remains the same after renewal.
+- ACM certificates are regional resources, so certificates in different AWS Regions must be renewed separately.
+
+---
