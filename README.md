@@ -9,6 +9,12 @@
 4. **Private Certificate Issuance** – Issues private certificates via AWS Private CA.
 5. **Certificate Import** – Supports importing third-party certificates.
 
+### What is the right AWS certificate service for my needs?
+**1. **AWS Certificate Manager (ACM)****
+- This service is for enterprise customers who need a secure web presence using TLS. ACM certificates are deployed through Elastic Load Balancing, Amazon CloudFront, Amazon API Gateway, and other integrated AWS services. The most common application of this kind is a secure public website with significant traffic requirements. ACM also simplifies security management by automating the renewal of expiring certificates. You are in the right place for this service.
+
+**2. **AWS Private CA****
+- This service is for enterprise customers building a public key infrastructure (PKI) inside the AWS cloud and intended for private use within an organization. With AWS Private CA, you can create your own certificate authority (CA) hierarchy and issue certificates with it for authenticating users, computers, applications, services, servers, and other devices. Certificates issued by a private CA cannot be used on the internet. For more information, see the AWS Private CA User Guide.
 ---
 
 ### **How to Configure ACM**
@@ -104,3 +110,66 @@ Browsers trust websites based on valid certificates issued by trusted CAs. When 
 
 ---
 
+### **ACM Certificate Integration with AWS Services**
+
+1. **Elastic Load Balancing (ELB)**  
+   ELB distributes traffic across EC2 instances and automatically scales. ACM certificates can be deployed on the load balancer for SSL/TLS encryption.  
+   *For details, see the Elastic Load Balancing User Guide.*
+
+2. **Amazon CloudFront**  
+   CloudFront speeds up content delivery globally. ACM certificates can secure CloudFront distributions for SSL/TLS.  
+   *Request certificates in the US East (N. Virginia) region.*
+
+3. **Amazon Cognito**  
+   ACM certificates are used for custom domains with CloudFront proxies in Cognito user pools.  
+   *Certificates are managed automatically, but must be disassociated before deletion.*
+
+4. **AWS Elastic Beanstalk**  
+   Beanstalk uses ELB for load balancing and can deploy ACM certificates for HTTPS termination.  
+   *See the Elastic Beanstalk Developer Guide for more.*
+
+5. **AWS App Runner**  
+   App Runner automates certificate management for custom domains, storing certificates in ACM.  
+   *Certificates remain for seven days post-service/domain removal.*
+
+6. **Amazon API Gateway**  
+   ACM certificates are used for custom domain names to secure APIs.  
+   *See the API Gateway Developer Guide for more.*
+
+7. **AWS Nitro Enclaves**  
+   Nitro Enclaves allow isolated environments in EC2. ACM certificates can be used with Nitro-connected instances.  
+   *See AWS Certificate Manager for Nitro Enclaves.*
+
+8. **AWS CloudFormation**  
+   CloudFormation automates resource setup, including ACM certificates, for secure connections.  
+   *Ensure proper validation during stack creation to avoid delays.*
+
+9. **AWS Amplify**  
+   Amplify automatically generates ACM certificates when you connect a custom domain to your application.
+
+10. **Amazon OpenSearch Service**  
+    ACM certificates secure the Application Load Balancer for OpenSearch clusters with custom domains.
+
+11. **AWS Network Firewall**  
+    Network Firewall integrates with ACM for TLS inspection, using certificates for decryption and re-encryption of SSL/TLS traffic.  
+    *See the AWS Network Firewall Developer Guide for setup details.*
+
+---
+
+### **AWS Certificate Manager (ACM) Security Overview**
+
+**Cloud Security at AWS**  
+AWS prioritizes security, with data centers and architectures built for highly sensitive requirements. Cloud security is a shared responsibility between AWS and the customer, outlined as:
+
+- **Security of the Cloud**: AWS protects the infrastructure and provides secure services, regularly audited for compliance.
+- **Security in the Cloud**: The customer is responsible for configuring services securely, based on the specific AWS service used, data sensitivity, and applicable laws.
+
+**Using ACM Securely**  
+Helps you implement the shared responsibility model when using AWS Certificate Manager (ACM) to meet your security and compliance needs. Key areas include:
+
+- **Data Protection**: Ensuring the confidentiality and integrity of data managed by ACM.
+- **Identity and Access Management (IAM)**: Controlling access to ACM resources.
+- **Resilience**: Configuring ACM for high availability and disaster recovery.
+- **Infrastructure Security**: Understanding ACM’s security features and best practices for secure operations.
+
+---
